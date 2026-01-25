@@ -27,6 +27,14 @@ p{
     font-weight: 500;
 }
 
+.btn-custom-two{
+    background-color: #fff;
+    color: #000;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+}
 
 .header_section{
   margin-top: 20px;
@@ -56,6 +64,17 @@ p{
 }
 .header_section .nav-link:hover{
     color: #FF6B00;
+}
+ul .page_item{
+    color: #fff !important;
+    display: inline-block;
+}
+ul .page_item a{
+    color: #fff !important;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 18px;
+    margin-left: 20px;
 }
 
 

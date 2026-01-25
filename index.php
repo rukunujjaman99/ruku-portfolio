@@ -1,4 +1,7 @@
-<?php get_header(); ?>
+<?php
+// Template Name: Home Page
+
+get_header(); ?>
 
     <main>
       <section class="about_section py-5  mt-2">
@@ -9,8 +12,8 @@
           <h1>I am Rukunujjaman</h1>
           <h2>Web Developer</h2>
           <p>I bring 2 years of experience in Web design & WordPress Developemnt. I consistently demonstrated excellent communication skills, problem-solving abilities, and a customer-centric approach. Throughout my career, I have gained valuable insights into customer behavior and have developed strategies to effectively address their needs, resulting in increased customer satisfaction and retention rates.</p>
-          <a href="#" class=" btn-custom">My Resume</a>
-          <a href="" class="mx-2 btn-custom">Learn More</a>
+          <a href="https://drive.google.com/drive/folders/1I2zjyq8CJNmpWugOA3KD9vNg4a65Ajqo" target="_blank" class=" btn-custom">Download CV</a>
+          <a href="<?php echo home_url('/about'); ?>" class="mx-2 btn-custom-two">Learn More</a>
           
          
         </div>
@@ -157,28 +160,49 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-4">
-                    <div class="portfolio_item mb-4">
-                      <img src="<?php echo get_template_directory_uri(); ?>/assets/images/Thaimedicss.png" alt="Portfolio Image" class="img-fluid w-100 h-100">
-                      <h4 class="mt-2">Thaimedics</h4>
-                      <p>Brief description of the project highlighting key features and technologies used.</p>
-                    </div>
-                  </div>
-                   <div class="col-md-4">
-                    <div class="portfolio_item mb-4">
-                      <img src="<?php echo get_template_directory_uri(); ?>/assets/images/Bangkok.png" alt="Portfolio Image" class="img-fluid w-100 h-100">
-                      <h4 class="mt-2">Bangkok Air Ambulance </h4>
-                      <p>Brief description of the project highlighting key features and technologies used.</p>
-                    </div>
-                  </div>
-                   <div class="col-md-4">
-                    <div class="portfolio_item mb-4">
-                      <img src="<?php echo get_template_directory_uri(); ?>/assets/images/Elitevisa.png" alt="Portfolio Image" class="img-fluid w-100 h-100">
-                      <h4 class="mt-2">Thailand Elite Visa</h4>
-                      <p>Brief description of the project highlighting key features and technologies used.</p>
-                    </div>
-                  </div>
-                </div>
+
+                            <?php
+$projects = new WP_Query(array(
+    'post_type'      => 'project',
+    'posts_per_page' => 3,
+    'order'          => 'ASC',
+));
+
+if ($projects->have_posts()) :
+    while ($projects->have_posts()) : $projects->the_post();
+
+        $project_link = get_post_meta(get_the_ID(), '_project_link', true); // get meta
+
+        ?>
+        <div class="col-md-4">
+            <div class="portfolio_item mb-4 py-3">
+                     <a href="<?php echo esc_url($project_link); ?>" target="_blank">
+                            <?php if (has_post_thumbnail()) : ?>
+                    <img src="<?php the_post_thumbnail_url('full'); ?>" alt="<?php the_title(); ?>" class="img-fluid w-100 h-100">
+                <?php endif; ?>
+                     </a>
+
+            
+
+                <h4 class="mt-2"><?php the_title(); ?></h4>
+                <p><?php the_excerpt(); ?></p>
+
+                <?php if ($project_link) : ?>
+                    <a href="<?php echo esc_url($project_link); ?>" target="_blank" class="btn-custom ms-auto">View Project</a>
+                <?php endif; ?>
+
+            </div>
+        </div>
+      
+    <?php
+    endwhile;
+    wp_reset_postdata();
+endif;
+?>
+
+              </div>
+              <div class="text-center mt-4">
+                <a href="<?php echo home_url('/portfolio'); ?>" class="btn-custom-two">View All Projects</a>
               </div>
             </section>
               <!-- portfolio section end -->
