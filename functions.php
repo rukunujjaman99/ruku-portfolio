@@ -107,7 +107,7 @@ function create_custom_post_type() {
         'has_archive'        => true,
         'hierarchical'       => false,
         'menu_position'      => null,
-        'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
+        'supports'           => array( 'title', 'editor', 'thumbnail', 'excerpt', 'comments' ),
         'taxonomies'         => array( 'category', 'post_tag' ),
     );
     register_post_type( 'project', $args );
@@ -165,6 +165,281 @@ add_action('save_post', 'project_save_meta_box');
 
 
 
+function ruku_education_custom_post_type() {
+    $labels = array(
+        'name'               => _x( 'Educations', 'post type general name', 'rukunujjaman' ),
+        'singular_name'      => _x( 'Education', 'post type singular name', 'rukunujjaman' ),
+        'menu_name'          => _x( 'Educations', 'admin menu', 'rukunujjaman' ),
+        'name_admin_bar'     => _x( 'Education', 'add new on admin bar', 'rukunujjaman' ),
+        'add_new'            => _x( 'Add New', 'education', 'rukunujjaman' ),
+        'add_new_item'       => __( 'Add New Education', 'rukunujjaman' ),
+        'new_item'           => __( 'New Education', 'rukunujjaman' ),    
+        'edit_item'          => __( 'Edit Education', 'rukunujjaman' ),
+        'view_item'          => __( 'View Education', 'rukunujjaman' ),
+        'all_items'         => __( 'All Educations', 'rukunujjaman' ),
+        'search_items'       => __( 'Search Educations', 'rukunujjaman' ),
+        'parent_item_colon'  => __( '', '', '' ),
+        );
+    $args = array(
+         'labels'             => $labels,
+    'public'             => true,
+    'publicly_queryable' => true,
+    'show_ui'            => true,
+    'show_in_menu'       => true,
+    'query_var'          => true,
+    'rewrite'            => array( 'slug' => 'education' ),
+    'capability_type'    => 'post',
+    'has_archive'        => true,
+    'hierarchical'       => false,
+    'menu_position'      => null,
+    'supports'           => array( 'title',  'thumbnail', 'excerpt',  ),
+   
+    );
+    register_post_type( 'education', $args );
+}
+add_action( 'init', 'ruku_education_custom_post_type' ); 
+
+function add_education_meta_box() {
+    add_meta_box(
+        'education_meta_box',
+        'Education Details',
+        'render_education_meta_box',
+        'education',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'add_education_meta_box');
 
 
-?>
+
+function render_education_meta_box($post) {
+
+    wp_nonce_field('save_education_meta', 'education_meta_nonce');
+
+    $educations = get_post_meta($post->ID, 'education_repeater', true);
+    if (!is_array($educations)) {
+        $educations = [];
+    }
+    ?>
+
+    <div id="education-repeater-wrapper">
+
+        <?php foreach ($educations as $index => $edu) : ?>
+            <div class="education-group" style="border:1px solid #ddd;padding:15px;margin-bottom:15px;">
+                
+                <p>
+                    <label><strong>Degree</strong></label>
+                    <input type="text" name="education_repeater[<?php echo $index; ?>][degree]" class="widefat"
+                           value="<?php echo esc_attr($edu['degree'] ?? ''); ?>">
+                </p>
+
+                <p>
+                    <label><strong>University</strong></label>
+                    <input type="text" name="education_repeater[<?php echo $index; ?>][university]" class="widefat"
+                           value="<?php echo esc_attr($edu['university'] ?? ''); ?>">
+                </p>
+
+                <p>
+                    <label><strong>Academic Year</strong></label>
+                    <input type="text" name="education_repeater[<?php echo $index; ?>][academic_year]" class="widefat"
+                           value="<?php echo esc_attr($edu['academic_year'] ?? ''); ?>">
+                </p>
+
+                <p>
+                    <label><strong>Short Description</strong></label>
+                    <textarea name="education_repeater[<?php echo $index; ?>][short_description]" rows="3" class="widefat"><?php
+                        echo esc_textarea($edu['short_description'] ?? '');
+                    ?></textarea>
+                </p>
+
+                <button type="button" class="button remove-education">Remove</button>
+            </div>
+        <?php endforeach; ?>
+
+    </div>
+
+    <button type="button" class="button button-primary" id="add-education">+ Add Education</button>
+
+    <!-- TEMPLATE -->
+    <script type="text/html" id="education-template">
+        <div class="education-group" style="border:1px solid #ddd;padding:15px;margin-bottom:15px;">
+            <p>
+                <label><strong>Degree</strong></label>
+                <input type="text" name="education_repeater[{{index}}][degree]" class="widefat">
+            </p>
+
+            <p>
+                <label><strong>University</strong></label>
+                <input type="text" name="education_repeater[{{index}}][university]" class="widefat">
+            </p>
+
+            <p>
+                <label><strong>Academic Year</strong></label>
+                <input type="text" name="education_repeater[{{index}}][academic_year]" class="widefat">
+            </p>
+
+            <p>
+                <label><strong>Short Description</strong></label>
+                <textarea name="education_repeater[{{index}}][short_description]" rows="3" class="widefat"></textarea>
+            </p>
+
+            <button type="button" class="button remove-education">Remove</button>
+        </div>
+    </script>
+
+    <script>
+        (function($){
+            let index = <?php echo count($educations); ?>;
+
+            $('#add-education').on('click', function(){
+                let template = $('#education-template').html().replace(/{{index}}/g, index);
+                $('#education-repeater-wrapper').append(template);
+                index++;
+            });
+
+            $(document).on('click', '.remove-education', function(){
+                $(this).closest('.education-group').remove();
+            });
+        })(jQuery);
+    </script>
+
+    <?php
+}
+function save_education_meta_box($post_id) {
+
+    if (!isset($_POST['education_meta_nonce']) ||
+        !wp_verify_nonce($_POST['education_meta_nonce'], 'save_education_meta')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
+    if (get_post_type($post_id) !== 'education') return;
+
+    if (isset($_POST['education_repeater']) && is_array($_POST['education_repeater'])) {
+
+        $clean_data = [];
+
+        foreach ($_POST['education_repeater'] as $edu) {
+            $clean_data[] = [
+                'degree' => sanitize_text_field($edu['degree'] ?? ''),
+                'university' => sanitize_text_field($edu['university'] ?? ''),
+                'academic_year' => sanitize_text_field($edu['academic_year'] ?? ''),
+                'short_description' => sanitize_textarea_field($edu['short_description'] ?? ''),
+            ];
+        }
+
+        update_post_meta($post_id, 'education_repeater', $clean_data);
+    } else {
+        delete_post_meta($post_id, 'education_repeater');
+    }
+}
+add_action('save_post', 'save_education_meta_box');
+
+
+function ruku_experience_custom_post_type() {
+    $labels = array(
+        'name'               => _x( 'Experiences', 'post type general name', 'rukunujjaman' ),
+        'singular_name'      => _x( 'Experience', 'post type singular name', 'rukunujjaman' ),
+        'menu_name'          => _x( 'Experiences', 'admin menu', 'rukunujjaman' ),
+        'name_admin_bar'     => _x( 'Experience', 'add new on admin bar', 'rukunujjaman' ),
+        'add_new'            => _x( 'Add New', 'experience', 'rukunujjaman' ),
+        'add_new_item'       => __( 'Add New Experience', 'rukunujjaman' ),
+        'new_item'           => __( 'New Experience', 'rukunujjaman' ), 
+        'edit_item'          => __( 'Edit Experience', 'rukunujjaman' ),
+        'view_item'          => __( 'View Experience', 'rukunujjaman' ),
+        'all_items'         => __( 'All Experiences', 'rukunujjaman' ),
+        'search_items'       => __( 'Search Experiences', 'rukunujjaman' ),
+        'parent_item_colon'  => __( '', '', '' ),
+        );
+    $args = array(
+         'labels'             => $labels,
+    'public'             => true,
+     'menu_icon'          => 'dashicons-hammer',
+    'publicly_queryable' => true,
+    'show_ui'            => true,
+    'show_in_menu'       => true,
+    'query_var'          => true,
+    'rewrite'            => array( 'slug' => 'experience' ),
+    'capability_type'    => 'post',
+    'has_archive'        => true,
+    'hierarchical'       => false,
+    'menu_position'      => null,
+    'supports'           => array( 'title',  'thumbnail'  ),
+   
+    );
+    register_post_type( 'experience', $args );
+}
+add_action( 'init', 'ruku_experience_custom_post_type' );
+
+
+
+function add_experience_meta_box() {
+    add_meta_box(
+        'experience_meta_box',
+        'Experience Details',
+        'render_experience_meta_box',
+        'experience', // change if needed
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'add_experience_meta_box');
+
+
+function render_experience_meta_box($post) {
+
+    wp_nonce_field('save_experience_meta', 'experience_meta_nonce');
+
+    $job_title = get_post_meta($post->ID, 'job_title', true);
+    $company   = get_post_meta($post->ID, 'company', true);
+    $duration  = get_post_meta($post->ID, 'duration', true);
+    $desc      = get_post_meta($post->ID, 'short_description', true);
+    ?>
+
+    <p>
+        <label><strong>Job Title</strong></label>
+        <input type="text" name="job_title" class="widefat"
+               value="<?php echo esc_attr($job_title); ?>">
+    </p>
+
+    <p>
+        <label><strong>Company</strong></label>
+        <input type="text" name="company" class="widefat"
+               value="<?php echo esc_attr($company); ?>">
+    </p>
+
+    <p>
+        <label><strong>Duration</strong></label>
+        <input type="text" name="duration" class="widefat"
+               value="<?php echo esc_attr($duration); ?>">
+    </p>
+
+    <p>
+        <label><strong>Short Description</strong></label>
+        <textarea name="short_description" rows="4" class="widefat"><?php
+            echo esc_textarea($desc);
+        ?></textarea>
+    </p>
+
+    <?php
+}
+
+function save_experience_meta_box($post_id) {
+
+    if (!isset($_POST['experience_meta_nonce']) ||
+        !wp_verify_nonce($_POST['experience_meta_nonce'], 'save_experience_meta')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
+    if (get_post_type($post_id) !== 'experience') return;
+
+    update_post_meta($post_id, 'job_title', sanitize_text_field($_POST['job_title'] ?? ''));
+    update_post_meta($post_id, 'company', sanitize_text_field($_POST['company'] ?? ''));
+    update_post_meta($post_id, 'duration', sanitize_text_field($_POST['duration'] ?? ''));
+    update_post_meta($post_id, 'short_description', sanitize_textarea_field($_POST['short_description'] ?? ''));
+}
+add_action('save_post', 'save_experience_meta_box');

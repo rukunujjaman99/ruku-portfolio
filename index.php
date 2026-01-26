@@ -100,22 +100,55 @@ get_header(); ?>
                   </div>
                 </div>
               </div>
+                  
               <div class="row">
-                <div class="col-md-6">
-                  <div class="experience_item mb-4">
-                    <h3>Wordpress Developer</h3>
-                    <h4>ABC Company | 2025 - Present</h4>
-                    <p>Developed and maintained company website using WordPress and custom themes. Collaborated with design team to implement responsive designs.</p>
-                  </div>
-                </div>
-                 <div class="col-md-6">
-                  <div class="experience_item mb-4">
-                    <h3>Wordpress Developer</h3>
-                    <h4>XYZ Agency | 2023 - 2025</h4>
-                    <p>Worked on various client projects, creating interactive and user-friendly web interfaces. Utilized HTML, CSS, and JavaScript to enhance user experience.</p>
-                  </div>
-                </div>
-              </div>
+<?php
+$args = array(
+    'post_type'      => 'experience', // Your CPT
+    'posts_per_page' => -1,           // All posts
+    'post_status'    => 'publish',
+    'orderby'        => 'date',       // Optional: order by date
+    'order'          => 'ASC',        // Optional: ascending order
+);
+
+$experience_query = new WP_Query($args);
+
+if ($experience_query->have_posts()) :
+    while ($experience_query->have_posts()) : $experience_query->the_post();
+
+        // Get meta fields
+        $job_title   = get_post_meta(get_the_ID(), 'job_title', true);
+        $company     = get_post_meta(get_the_ID(), 'company', true);
+        $duration    = get_post_meta(get_the_ID(), 'duration', true);
+        $short_desc  = get_post_meta(get_the_ID(), 'short_description', true);
+?>
+        <div class="col-md-6">
+            <div class="experience_item mb-4">
+                <?php if ($job_title) : ?>
+                    <h3><?php echo esc_html($job_title); ?></h3>
+                <?php endif; ?>
+
+                <?php if ($company || $duration) : ?>
+                    <h4>
+                        <?php echo esc_html($company); ?>
+                        <?php if ($company && $duration) : ?> | <?php endif; ?>
+                        <?php echo esc_html($duration); ?>
+                    </h4>
+                <?php endif; ?>
+
+                <?php if ($short_desc) : ?>
+                    <p><?php echo esc_html($short_desc); ?></p>
+                <?php endif; ?>
+            </div>
+        </div>
+
+<?php
+    endwhile;
+    wp_reset_postdata();
+endif;
+?>
+</div>
+
             </div>
           </section>
           <!-- experience section end -->
@@ -130,20 +163,48 @@ get_header(); ?>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-6">
+                          <?php
+$args = array(
+    'post_type'      => 'education',
+    'posts_per_page' => -1,
+    'post_status'    => 'publish',
+);
+
+$education_query = new WP_Query($args);
+
+if ($education_query->have_posts()) :
+    while ($education_query->have_posts()) : $education_query->the_post();
+
+        $educations = get_post_meta(get_the_ID(), 'education_repeater', true);
+
+        if (!empty($educations) && is_array($educations)) :
+            foreach ($educations as $edu) :
+?>
+                <div class="col-md-6">
                     <div class="education_item mb-4">
-                      <h3>Bachelor of Science in Computer Science Engineering</h3>
-                      <h4> Canadian University of Bangladesh | 2023 - 2026</h4>
-                      <p>Graduated with Honors, focusing on web development, database management, and software engineering principles.</p>
+                        <h3><?php echo esc_html($edu['degree']); ?></h3>
+
+                        <h4>
+                            <?php echo esc_html($edu['university']); ?>
+                            <?php if (!empty($edu['academic_year'])) : ?>
+                                | <?php echo esc_html($edu['academic_year']); ?>
+                            <?php endif; ?>
+                        </h4>
+
+                        <p><?php echo esc_html($edu['short_description']); ?></p>
                     </div>
-                  </div>
-                   <div class="col-md-6">
-                    <div class="education_item mb-4">
-                      <h3>Diploma in Computer Science</h3>
-                      <h4>Bogura Polytechnic Institute | 2016 - 2020</h4>
-                       <p>Completed the diploma program with a strong foundation in programming, database management, and computer systems.</p>
-                    </div>
-                  </div>
+                </div>
+<?php
+            endforeach;
+        endif;
+
+    endwhile;
+    wp_reset_postdata();
+endif;
+?>
+ 
+                 
+                  
                 </div>
               </div>
             </section>
@@ -174,25 +235,63 @@ if ($projects->have_posts()) :
         $project_link = get_post_meta(get_the_ID(), '_project_link', true); // get meta
 
         ?>
-        <div class="col-md-4">
-            <div class="portfolio_item mb-4 py-3">
-                     <a href="<?php echo esc_url($project_link); ?>" target="_blank">
-                            <?php if (has_post_thumbnail()) : ?>
-                    <img src="<?php the_post_thumbnail_url('full'); ?>" alt="<?php the_title(); ?>" class="img-fluid w-100 h-100">
-                <?php endif; ?>
-                     </a>
+       <div class="col-md-4">
+    <div class="portfolio_item mb-4 py-3">
 
+        <!-- Trigger Modal -->
+        <a href="#" data-bs-toggle="modal" data-bs-target="#projectModal-<?php the_ID(); ?>">
+            <?php if (has_post_thumbnail()) : ?>
+                <img src="<?php the_post_thumbnail_url('full'); ?>" 
+                     alt="<?php the_title(); ?>" 
+                     class="img-fluid w-100 h-100">
+            <?php endif; ?>
+        </a>
+
+        <h4 class="mt-2">
+            <a href="#" class="text-decoration-none"  data-bs-toggle="modal" data-bs-target="#projectModal-<?php the_ID(); ?>">
             
+                <h4 class="text-decoration-none"><?php the_title(); ?></h4>
+            </a>
+        </h4>
 
-                <h4 class="mt-2"><?php the_title(); ?></h4>
-                <p><?php the_excerpt(); ?></p>
+        <p><?php the_excerpt(); ?></p>
+
+        <button class="btn-custom"
+                data-bs-toggle="modal"
+                data-bs-target="#projectModal-<?php the_ID(); ?>">
+            View Details
+        </button>
+    </div>
+</div>
+<div class="modal fade  bg-dark" id="projectModal-<?php the_ID(); ?>" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable ">
+        <div class="modal-content  text-white">
+
+            <div class="modal-header">
+                <h5 class="modal-title"><?php the_title(); ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <?php if (has_post_thumbnail()) : ?>
+                    <img src="<?php the_post_thumbnail_url('full'); ?>" class="img-fluid mb-3">
+                <?php endif; ?>
+
+                <?php the_content(); ?>
 
                 <?php if ($project_link) : ?>
-                    <a href="<?php echo esc_url($project_link); ?>" target="_blank" class="btn-custom ms-auto">View Project</a>
+                    <a href="<?php echo esc_url($project_link); ?>" 
+                       target="_blank" 
+                       class=" btn-custom mt-3">
+                        Visit Project
+                    </a>
                 <?php endif; ?>
-
             </div>
+
         </div>
+    </div>
+</div>
+
       
     <?php
     endwhile;
@@ -210,7 +309,7 @@ endif;
     </main>
 
 
-    <?php get_footer(); ?>
+      <?php get_footer(); ?>
 
     <?php wp_footer(); ?>
 </body>
