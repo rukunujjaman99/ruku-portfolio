@@ -43,6 +43,12 @@ function enqueue_custom_assets() {
         array(),
         '5.3',
     );
+    wp_enqueue_style(
+        'fontawesome',
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
+        array(),
+        '6.4.0'
+    );
 
     // JS
     wp_enqueue_script(
@@ -192,6 +198,7 @@ function ruku_education_custom_post_type() {
     'has_archive'        => true,
     'hierarchical'       => false,
     'menu_position'      => null,
+    'menu_icon'          => 'dashicons-welcome-learn-more',
     'supports'           => array( 'title',  'thumbnail', 'excerpt',  ),
    
     );
@@ -366,6 +373,7 @@ function ruku_experience_custom_post_type() {
     'has_archive'        => true,
     'hierarchical'       => false,
     'menu_position'      => null,
+    'menu_icon'          => 'dashicons-portfolio',
     'supports'           => array( 'title',  'thumbnail'  ),
    
     );
@@ -443,3 +451,113 @@ function save_experience_meta_box($post_id) {
     update_post_meta($post_id, 'short_description', sanitize_textarea_field($_POST['short_description'] ?? ''));
 }
 add_action('save_post', 'save_experience_meta_box');
+
+
+
+function ruku_training_custom_post_type() {
+    $labels = array(
+        'name'               => _x( 'Trainings', 'post type general name', 'rukunujjaman' ),    
+        'singular_name'      => _x( 'Training', 'post type singular name', 'rukunujjaman' ),
+        'menu_name'          => _x( 'Trainings', 'admin menu', 'rukunujjaman' ),
+        'name_admin_bar'     => _x( 'Training', 'add new on admin bar', 'rukunujjaman' ),
+        'add_new'            => _x( 'Add New', 'training', 'rukunujjaman' ),
+        'add_new_item'       => __( 'Add New Training', 'rukunujjaman' ),
+        'new_item'           => __( 'New Training', 'rukunujjaman' ),   
+        'edit_item'          => __( 'Edit Training', 'rukunujjaman' ),  
+        'view_item'          => __( 'View Training', 'rukunujjaman' ),
+        'all_items'         => __( 'All Trainings', 'rukunujjaman' ),
+        'search_items'       => __( 'Search Trainings', 'rukunujjaman' ),
+        'parent_item_colon'  => __( '', '', '' ),
+        );
+    $args = array(
+         'labels'             => $labels,
+    'public'             => true,
+     'menu_icon'          => 'dashicons-welcome-learn-more',
+    'publicly_queryable' => true,
+    'show_ui'            => true,
+    'show_in_menu'       => true,
+    'query_var'          => true,
+    'rewrite'            => array( 'slug' => 'training' ),
+    'capability_type'    => 'post',
+    'has_archive'        => true,
+    'hierarchical'       => false,
+    'menu_position'      => null,
+    'supports'           => array( 'title',  'thumbnail'  ),
+   
+    );
+    register_post_type( 'training', $args );
+}
+add_action( 'init', 'ruku_training_custom_post_type' );
+
+
+
+function add_training_meta_box() {
+    add_meta_box(
+        'training_meta_box',
+        'Training Details',
+        'render_training_meta_box',
+        'training', // change if needed
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'add_training_meta_box');
+
+
+function render_training_meta_box($post) {
+
+    wp_nonce_field('save_training_meta', 'training_meta_nonce');
+
+    $course_name = get_post_meta($post->ID, 'course_name', true);
+    $institute   = get_post_meta($post->ID, 'institute', true);
+    $duration    = get_post_meta($post->ID, 'duration', true);
+    $desc        = get_post_meta($post->ID, 'short_description', true);
+
+
+    ?>
+
+    <p>
+        <label><strong>Course Name</strong></label>
+        <input type="text" name="course_name" class="widefat"
+               value="<?php echo esc_attr($course_name); ?>">
+    </p>
+
+    <p>
+        <label><strong>Institute</strong></label>
+        <input type="text" name="institute" class="widefat"
+               value="<?php echo esc_attr($institute); ?>">
+    </p>
+
+    <p>
+        <label><strong>Duration</strong></label>
+        <input type="text" name="duration" class="widefat"
+               value="<?php echo esc_attr($duration); ?>">
+    </p>
+
+    <p>
+        <label><strong>Short Description</strong></label>
+        <textarea name="short_description" rows="4" class="widefat"><?php
+            echo esc_textarea($desc);
+        ?></textarea>
+    </p>
+
+    <?php
+}
+
+function save_training_meta_box($post_id) {
+
+    if (!isset($_POST['training_meta_nonce']) ||
+        !wp_verify_nonce($_POST['training_meta_nonce'], 'save_training_meta')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
+    if (get_post_type($post_id) !== 'training') return;
+
+    update_post_meta($post_id, 'course_name', sanitize_text_field($_POST['course_name'] ?? ''));
+    update_post_meta($post_id, 'institute', sanitize_text_field($_POST['institute'] ?? ''));
+    update_post_meta($post_id, 'duration', sanitize_text_field($_POST['duration'] ?? ''));
+    update_post_meta($post_id, 'short_description', sanitize_textarea_field($_POST['short_description'] ?? ''));
+}
+add_action('save_post', 'save_training_meta_box');

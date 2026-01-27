@@ -14,9 +14,19 @@ get_header(); ?>
           <p>I bring 2 years of experience in Web design & WordPress Developemnt. I consistently demonstrated excellent communication skills, problem-solving abilities, and a customer-centric approach. Throughout my career, I have gained valuable insights into customer behavior and have developed strategies to effectively address their needs, resulting in increased customer satisfaction and retention rates.</p>
           <a href="https://drive.google.com/drive/folders/1I2zjyq8CJNmpWugOA3KD9vNg4a65Ajqo" target="_blank" class=" btn-custom">Download CV</a>
           <a href="<?php echo home_url('/about'); ?>" class="mx-2 btn-custom-two">Learn More</a>
+          <div class="social py-3 mx-2 ">
+            <h4 class="py-3">Find with me</h4>
+            <div class="social_links">
+              <a href="https://www.facebook.com/rukunujjaman.raj" target="_blank"><i class="fab fa-facebook-f"></i></a>
+              <a href="https://www.linkedin.com/in/rukunujjaman-raj/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+              <a href="https://github.com/rukunujjaman99" target="_blank"><i class="fab fa-github"></i></a> 
+
+
+          </div>
           
          
         </div>
+          </div>
           </div>
           <div class="col-md-6">
              <div class="about_image text-center">
