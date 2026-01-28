@@ -7,19 +7,32 @@
     box-sizing: border-box;
      font-family: "PT Sans Narrow", serif;
 }
-body{
-    background: #0f172b !important;
+:root {
+    --bg-color: #11071e;
+    --second-bg-color: #112e42;
+    --text-color: #ededed;
+    --main-color: #00abf0;
+    --section-bg: #0a1727;
+    --card-item-bg: linear-gradient(136deg, #0a1727, #376e92);
+
 }
+
+body {
+    background: var(--bg-color) !important;
+   
+}
+
 
 h1,h2,h3,h4,h5,h6{
   color: #fff !important;
 
 }
+
 p{
-    color: #ccc !important;
+    color: var(--text-color) !important;
 }
 .btn-custom{
-    background-color: #FF6B00;
+    background-color:#376e92;
     color: #fff;
     padding: 10px 20px;
     border-radius: 4px;
@@ -28,12 +41,15 @@ p{
 }
 
 .btn-custom-two{
-    background-color: #fff;
-    color: #000;
-    padding: 10px 20px;
-    border-radius: 4px;
+    background: linear-gradient(136deg, #0a1727, #376e92);
+    border:none;
+    padding:10px 26px;
+    border-radius:5px;
+    color:white;
+    font-weight:600;
+    box-shadow:0 0 15px rgba(170,0,255,.6);
+    transition:.3s;
     text-decoration: none;
-    font-weight: 500;
 }
 
 .header_section{
@@ -43,7 +59,7 @@ p{
    
 }
 .header_section .navbar{
-    background-color: #252627;
+    background: var(--second-bg-color);
     padding: 10px 20px;
     box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
     border-radius: 4px;
@@ -80,7 +96,7 @@ ul .page_item a{
 
 /* about css start */
 .about_section{
-    background: #252627;
+    background: var(--section-bg);
     max-width: 1200px;
     margin: 0 auto;
     border-radius: 6px;
@@ -123,7 +139,7 @@ ul .page_item a{
 /* about css end */
 
 .skill_section {
-    background: #252627;
+    background: var(--section-bg);
     max-width: 1200px;
     margin: 20px auto;
     border-radius: 6px;
@@ -182,16 +198,19 @@ animation: fill 2s ease-in-out forwards;
 
 /* experience section */
 .experience_section {
-    background: #252627;
+    background: var(--section-bg);
     max-width: 1200px;
     margin: 20px auto;
     border-radius: 6px;
 }
 
 .experience_item {
-    padding: 15px;
-    background-color: #333;
-    border-radius: 4px;
+    background: var(--card-item-bg);
+    border-radius:5px;
+    padding:20px;
+    color:white;
+   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+   backdrop-filter: blur(20px);
 }
 
 .experience_item h3 {
@@ -214,7 +233,7 @@ animation: fill 2s ease-in-out forwards;
 
 /* education section */
 .education_section {
-    background: #252627;
+    background: var(--section-bg);
     max-width: 1200px;
     margin: 20px auto;
     border-radius: 6px;
@@ -222,7 +241,7 @@ animation: fill 2s ease-in-out forwards;
 
 .education_item {
     padding: 15px;
-    background-color: #333;
+    background: var(--card-item-bg);
     border-radius: 4px;
 }
 
@@ -241,7 +260,7 @@ animation: fill 2s ease-in-out forwards;
 /* portfolio section */
 
 .portfolio_section {
-    background: #252627;
+    background: var(--section-bg);
     max-width: 1200px;
     margin: 0 auto;
     border-radius: 6px;
@@ -251,7 +270,7 @@ animation: fill 2s ease-in-out forwards;
     margin-bottom: 20px;
     border-radius: 4px;
     overflow: hidden;
-    background: #333;
+    background: var(--card-item-bg) !important;
     padding: 10px;
 }
 .portfolio_item img {
@@ -264,9 +283,34 @@ animation: fill 2s ease-in-out forwards;
 
 /* portfolio section end */
 
+/* blog section */
+.blog_section {
+    background: var(--section-bg);
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 6px;
+    padding: 20px;
+}
+.blog_item {
+    background: var(--card-item-bg);
+    border-radius: 4px;
+    padding: 15px;
+}
+.blog_item img {
+    width: 100%;
+}
+.blog_item h4 a {
+    color: #FF6B00;
+}
+.blog_item p {
+    color: #ccc;
+}
+
+/* blog section end */
+
 /* footer css start */
 footer{
-    background: #252627;
+    background: var(--second-bg-color);
     padding: 10px 0;
     margin-top: 40px;
     max-width: 1200px;

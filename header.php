@@ -37,7 +37,7 @@
        
       </ul>
       <div class="cta_btn">
-        <a href="#" class=" btn-custom">Let's Talk</a>
+        <a href="#" class=" btn-custom-two">Let's Talk</a>
       </div>
    
     </div>

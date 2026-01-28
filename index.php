@@ -20,11 +20,7 @@ get_header(); ?>
               <a href="https://www.facebook.com/rukunujjaman.raj" target="_blank"><i class="fab fa-facebook-f"></i></a>
               <a href="https://www.linkedin.com/in/rukunujjaman-raj/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
               <a href="https://github.com/rukunujjaman99" target="_blank"><i class="fab fa-github"></i></a> 
-
-
           </div>
-          
-         
         </div>
           </div>
           </div>
@@ -315,6 +311,51 @@ endif;
               </div>
             </section>
               <!-- portfolio section end -->
+               <!-- blog section start -->
+    <section class="blog_section py-5 mt-3 mb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section_title mb-4">
+                        <h2>Latest Blog Posts</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <?php
+                $blog_posts = new WP_Query(array(
+                    'post_type'      => 'post',
+                    'posts_per_page' => 3,
+                    'order'          => 'DESC',
+                ));
+
+                if ($blog_posts->have_posts()) :
+                    while ($blog_posts->have_posts()) : $blog_posts->the_post();
+                        ?>
+                        <div class="col-md-4">
+                            <div class="blog_item mb-4 py-3">
+                                <?php if (has_post_thumbnail()) : ?>
+                                    <img src="<?php the_post_thumbnail_url('full'); ?>" alt="<?php the_title(); ?>" class="img-fluid w-100 h-100">
+                                <?php endif; ?>
+                                <h4 class="mt-2"><a href="<?php the_permalink(); ?>" class="text-decoration-none"><?php the_title(); ?></a></h4>
+                                <p><?php echo wp_trim_words(get_the_content(), 20); ?></p>
+                                <a href="<?php the_permalink(); ?>" class="btn-custom ms-auto">Read More</a>
+                            </div>
+                        </div>
+                        <?php
+                    endwhile;
+                    wp_reset_postdata();
+                endif;
+                ?>
+
+            </div>
+            <div class="text-center mt-4">
+                <a href="<?php echo home_url('/blog'); ?>" class="btn-custom-two">View All Blog Posts</a>
+            </div>
+        </div>
+    </section>
+    <!-- blog section end -->
 
     </main>
 
