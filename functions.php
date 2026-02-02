@@ -561,3 +561,44 @@ function save_training_meta_box($post_id) {
     update_post_meta($post_id, 'short_description', sanitize_textarea_field($_POST['short_description'] ?? ''));
 }
 add_action('save_post', 'save_training_meta_box');
+
+
+
+
+function skill_custom_post_type() {
+    $labels = array(
+        'name'               => _x( 'Skills', 'post type general name', 'rukunujjaman' ),
+        'singular_name'      => _x( 'Skill', 'post type singular name', 'rukunujjaman' ),
+        'menu_name'          => _x( 'Skills', 'admin menu', 'rukunujjaman' ),
+        'name_admin_bar'     => _x( 'Skill', 'add new on admin bar', 'rukunujjaman' ),
+        'add_new'            => _x( 'Add New', 'skill', 'rukunujjaman' ),
+        'add_new_item'       => __( 'Add New Skill', 'rukunujjaman' ),
+        'new_item'           => __( 'New Skill', 'rukunujjaman' ),    
+        'edit_item'          => __( 'Edit Skill', 'rukunujjaman' ), 
+        'view_item'          => __( 'View Skill', 'rukunujjaman' ),
+        'all_items'         => __( 'All Skills', 'rukunujjaman' ),          
+        'search_items'       => __( 'Search Skills', 'rukunujjaman' ),
+        'parent_item_colon'  => __( '', '', '' ),
+        );  
+    $args = array(
+         'labels'             => $labels,
+    'public'             => true,
+     'menu_icon'          => 'dashicons-awards',
+    'publicly_queryable' => true,
+    'show_ui'            => true,
+    'show_in_menu'       => true,
+    'query_var'          => true,
+    'rewrite'            => array( 'slug' => 'skill' ),
+    'capability_type'    => 'post', 
+    'has_archive'        => true,
+    'hierarchical'       => false,
+    'menu_position'      => null,
+    'supports'           => array( 'title',  'thumbnail'  ),
+   
+    );
+    register_post_type( 'skill', $args );
+}
+add_action( 'init', 'skill_custom_post_type' );
+
+
+

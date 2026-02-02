@@ -356,6 +356,53 @@ endif;
         </div>
     </section>
     <!-- blog section end -->
+     <!-- contact section start -->
+    <section class="contact_section py-5 mt-3 mb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section_title mb-4">
+                        <h2>Contact Us</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="contat_info">
+                        <h4>Get in Touch</h4>
+                        <p>If you have any questions or would like to discuss a project, feel free to reach out to me. I'm always open to new opportunities and collaborations.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-phone-alt"></i> Phone: <a href="tel:+1234567890">+1 234 567 890</a></li>
+                            <li><i class="fas fa-envelope"></i> Email: <a href="mailto:contact@ruku.com">contact@ruku.com</a></li>
+                            <li><i class="fas fa-map-marker-alt"></i> Location: 123 Main St, Anytown, USA</li>
+                        </ul>
+
+                    </div>
+                    
+                </div>
+                <div class="col-md-6">
+                    <div class="contact_form">
+                        <h4>Send a Message</h4>
+                        <form action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="POST">
+                            <input type="hidden" name="action" value="submit_contact_form">
+                            <div class="mb-3">
+                                <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+                            </div>
+                            <div class="mb-3">
+                                <textarea name="message" class="form-control" rows="5" placeholder="Your Message" required></textarea>
+                            </div>
+                            <button type="submit" class="btn-custom">Send Message</button>
+                        </form>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- contact section end -->
 
     </main>
 

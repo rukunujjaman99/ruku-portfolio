@@ -308,11 +308,36 @@ animation: fill 2s ease-in-out forwards;
 
 /* blog section end */
 
+/* contact section */
+.contact_section {
+    background: var(--section-bg);
+    max-width: 1200px;
+    margin: 20px auto;
+    border-radius: 6px;
+    padding: 20px;
+}
+.contact_section input,
+.contact_section textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 4px;
+    background: #222;
+    color: #fff;
+}
+.contact_section input::placeholder,
+.contact_section textarea::placeholder {
+    color: #888;
+}
+
+/* contact section end */
+
 /* footer css start */
 footer{
     background: var(--second-bg-color);
-    padding: 10px 0;
-    margin-top: 40px;
+    padding: 2px 0;
+    margin-top: 10px;
     max-width: 1200px;
     margin: 0 auto;
 }
