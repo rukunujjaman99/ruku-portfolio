@@ -16,8 +16,13 @@
     <header class="header_section">
    <nav class="navbar navbar-expand-lg">
   <div class="container">
-    <a class="navbar-brand text-white" href="<?php echo home_url(); ?>">Ruku
-      
+    <a class="navbar-brand text-white" href="<?php echo esc_url(home_url('/')); ?>">
+     <?php if(has_custom_logo()):?>
+      <?php the_custom_logo(); ?>
+      <?php else:?>
+        <span class="default-logo">Ruku</span>
+      <?php endif ;?>
+
 
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,7 +32,7 @@
     
       <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
           <?php wp_nav_menu(array(
-        'theme_location' => 'Primary Menu',
+        'theme_location' => 'primary-menu',
         'orderby'        => 'menu_order',
        
     

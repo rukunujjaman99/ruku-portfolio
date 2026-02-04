@@ -2,30 +2,30 @@
 
 <?php
 
-function ruku_theme_function() {
-
-  register_nav_menus( array(
-    'primary' => __( 'Primary Menu', 'rukunujjaman' ),
-    'footer'  => __( 'Footer Menu', 'rukunujjaman' ),
-  ) );
-
-  add_theme_support('post-thumbnails');
-  add_theme_support('title-tag');
 
 
-}
-
-add_action('init', 'ruku_theme_function');
-
-function theme_setup() {
+function ruku_theme_setup() {
     add_theme_support('custom-logo', array(
         'height'      => 80,
         'width'       => 200,
         'flex-height' => true,
         'flex-width'  => true,
     ));
+
+      register_nav_menus( array(
+    'primary-menu' => __( 'Primary Menu', 'rukunujjaman' ),
+    'footer-menu'  => __( 'Footer Menu', 'rukunujjaman' ),
+    
+    
+  ) );
+
+  add_theme_support('post-thumbnails');
+  add_theme_support('title-tag');
+
+
+
 }
-add_action('after_setup_theme', 'theme_setup');
+add_action('after_setup_theme', 'ruku_theme_setup');
 
 
 function enqueue_custom_assets() {
