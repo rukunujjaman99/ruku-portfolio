@@ -9,17 +9,17 @@ get_header(); ?>
         <div class="row">
           <div class="col-md-6">
              <div class="about_content">
-          <h1>I am Rukunujjaman</h1>
-          <h2>Web Developer</h2>
-          <p>I bring 2 years of experience in Web design & WordPress Developemnt. I consistently demonstrated excellent communication skills, problem-solving abilities, and a customer-centric approach. Throughout my career, I have gained valuable insights into customer behavior and have developed strategies to effectively address their needs, resulting in increased customer satisfaction and retention rates.</p>
-          <a href="https://drive.google.com/drive/folders/1I2zjyq8CJNmpWugOA3KD9vNg4a65Ajqo" target="_blank" class=" btn-custom">Download CV</a>
-          <a href="<?php echo home_url('/about'); ?>" class="mx-2 btn-custom-two">Learn More</a>
-          <div class="social py-3 mx-2 ">
-            <h4 class="py-3">Find with me</h4>
-            <div class="social_links">
-              <a href="https://www.facebook.com/rukunujjaman.raj" target="_blank"><i class="fab fa-facebook-f"></i></a>
-              <a href="https://www.linkedin.com/in/rukunujjaman-raj/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-              <a href="https://github.com/rukunujjaman99" target="_blank"><i class="fab fa-github"></i></a> 
+               <h1><?php echo get_theme_mod('ruku_about_name'); ?></h1>
+    <h2><?php echo get_theme_mod('ruku_about_title'); ?></h2>
+    <p><?php echo get_theme_mod('ruku_about_desc'); ?></p>
+    <a href="<?php echo get_theme_mod('ruku_about_cv'); ?>" target="_blank" class="btn-custom">Download CV</a>
+    <a href="<?php echo get_theme_mod('ruku_about_link'); ?>" class="mx-2 btn-custom-two">Learn More</a>
+    <div class="social py-3 mx-2">
+        <h4 class="py-3">Find with me</h4>
+        <div class="social_links">
+            <a href="<?php echo get_theme_mod('ruku_about_facebook'); ?>" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="<?php echo get_theme_mod('ruku_about_linkedin'); ?>" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="<?php echo get_theme_mod('ruku_about_github'); ?>" target="_blank"><i class="fab fa-github"></i></a>
           </div>
         </div>
           </div>
@@ -369,13 +369,22 @@ endif;
             <div class="row">
                 <div class="col-md-6">
                     <div class="contat_info">
-                        <h4>Get in Touch</h4>
-                        <p>If you have any questions or would like to discuss a project, feel free to reach out to me. I'm always open to new opportunities and collaborations.</p>
-                        <ul class="list-unstyled">
-                            <li><i class="fas fa-phone-alt"></i> Phone: <a href="tel:+1234567890">+1 234 567 890</a></li>
-                            <li><i class="fas fa-envelope"></i> Email: <a href="mailto:contact@ruku.com">contact@ruku.com</a></li>
-                            <li><i class="fas fa-map-marker-alt"></i> Location: 123 Main St, Anytown, USA</li>
-                        </ul>
+                        <h4><?php echo get_theme_mod('ruku_contact_heading'); ?></h4>
+                              <p><?php echo get_theme_mod('ruku_contact_desc'); ?></p>
+                         <ul class="list-unstyled">
+        <li>
+            <i class="fas fa-phone-alt"></i> 
+            <a href="tel:<?php echo get_theme_mod('ruku_contact_phone'); ?>"> Phone: <?php echo get_theme_mod('ruku_contact_phone'); ?></a>
+        </li>
+        <li>
+            <i class="fas fa-envelope"></i> 
+            <a href="mailto:<?php echo get_theme_mod('ruku_contact_email'); ?>"> Email: <?php echo get_theme_mod('ruku_contact_email'); ?></a>
+        </li>
+        <li>
+            <i class="fas fa-map-marker-alt"></i> 
+            <span>Location: <?php echo get_theme_mod('ruku_contact_location'); ?></span>
+        </li>
+    </ul>
 
                     </div>
                     

@@ -343,6 +343,26 @@ animation: fill 2s ease-in-out forwards;
     border-radius: 6px;
     padding: 20px;
 }
+.contat_info ul li{
+    color: #fff !important;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    padding: 5px ;
+    margin: 10px 0 !important;
+}
+.contat_info ul li a{
+    color: #fff !important;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    padding: 5px ;
+    margin: 10px 0 !important;
+}
+
+.contat_info ul li i{
+    color: #fff !important;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
 .contact_section input,
 .contact_section textarea {
     width: 100%;

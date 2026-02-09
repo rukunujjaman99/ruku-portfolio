@@ -602,3 +602,170 @@ add_action( 'init', 'skill_custom_post_type' );
 
 
 
+function ruku_customize_about_section($wp_customize) {
+
+    // About Section
+    $wp_customize->add_section('ruku_about_section', array(
+        'title'    => __('About Section', 'ruku-theme'),
+        'priority' => 120,
+    ));
+
+    // Name
+    $wp_customize->add_setting('ruku_about_name', array(
+        'default' => 'I am Rukunujjaman',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('ruku_about_name', array(
+        'label'   => __('Your Name', 'ruku-theme'),
+        'section' => 'ruku_about_section',
+        'type'    => 'text',
+    ));
+
+    // Job Title
+    $wp_customize->add_setting('ruku_about_title', array(
+        'default' => 'Web Developer',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('ruku_about_title', array(
+        'label'   => __('Job Title', 'ruku-theme'),
+        'section' => 'ruku_about_section',
+        'type'    => 'text',
+    ));
+
+    // Description
+    $wp_customize->add_setting('ruku_about_desc', array(
+        'default' => 'I bring 2 years of experience in Web design & WordPress Development.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ));
+    $wp_customize->add_control('ruku_about_desc', array(
+        'label'   => __('Description', 'ruku-theme'),
+        'section' => 'ruku_about_section',
+        'type'    => 'textarea',
+    ));
+
+    // CV Link
+    $wp_customize->add_setting('ruku_about_cv', array(
+        'default' => 'https://drive.google.com/drive/folders/1I2zjyq8CJNmpWugOA3KD9vNg4a65Ajqo',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('ruku_about_cv', array(
+        'label'   => __('CV Link', 'ruku-theme'),
+        'section' => 'ruku_about_section',
+        'type'    => 'url',
+    ));
+
+    // Learn More Link
+    $wp_customize->add_setting('ruku_about_link', array(
+        'default' => home_url('/about'),
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('ruku_about_link', array(
+        'label'   => __('Learn More Link', 'ruku-theme'),
+        'section' => 'ruku_about_section',
+        'type'    => 'url',
+    ));
+
+    // Social Links - Facebook
+    $wp_customize->add_setting('ruku_about_facebook', array(
+        'default' => 'https://www.facebook.com/rukunujjaman99',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('ruku_about_facebook', array(
+        'label'   => __('Facebook URL', 'ruku-theme'),
+        'section' => 'ruku_about_section',
+        'type'    => 'url',
+    ));
+
+    // LinkedIn
+    $wp_customize->add_setting('ruku_about_linkedin', array(
+        'default' => 'https://www.linkedin.com/in/rukunujjaman-raj/',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('ruku_about_linkedin', array(
+        'label'   => __('LinkedIn URL', 'ruku-theme'),
+        'section' => 'ruku_about_section',
+        'type'    => 'url',
+    ));
+
+    // GitHub
+    $wp_customize->add_setting('ruku_about_github', array(
+        'default' => 'https://github.com/rukunujjaman99',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('ruku_about_github', array(
+        'label'   => __('GitHub URL', 'ruku-theme'),
+        'section' => 'ruku_about_section',
+        'type'    => 'url',
+    ));
+
+}
+add_action('customize_register', 'ruku_customize_about_section');
+
+
+// contact section
+
+function ruku_customize_contact_section($wp_customize) {
+
+    // Contact Section
+    $wp_customize->add_section('ruku_contact_section', array(
+        'title'    => __('Contact Section', 'ruku-theme'),
+        'priority' => 140,
+    ));
+
+    // Heading
+    $wp_customize->add_setting('ruku_contact_heading', array(
+        'default' => 'Get in Touch',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('ruku_contact_heading', array(
+        'label'   => __('Heading', 'ruku-theme'),
+        'section' => 'ruku_contact_section',
+        'type'    => 'text',
+    ));
+
+    // Description
+    $wp_customize->add_setting('ruku_contact_desc', array(
+        'default' => "If you have any questions or would like to discuss a project, feel free to reach out to me. I'm always open to new opportunities and collaborations.",
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ));
+    $wp_customize->add_control('ruku_contact_desc', array(
+        'label'   => __('Description', 'ruku-theme'),
+        'section' => 'ruku_contact_section',
+        'type'    => 'textarea',
+    ));
+
+    // Phone
+    $wp_customize->add_setting('ruku_contact_phone', array(
+        'default' => '+1 234 567 890',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('ruku_contact_phone', array(
+        'label'   => __('Phone Number', 'ruku-theme'),
+        'section' => 'ruku_contact_section',
+        'type'    => 'text',
+    ));
+
+    // Email
+    $wp_customize->add_setting('ruku_contact_email', array(
+        'default' => 'contact@ruku.com',
+        'sanitize_callback' => 'sanitize_email',
+    ));
+    $wp_customize->add_control('ruku_contact_email', array(
+        'label'   => __('Email Address', 'ruku-theme'),
+        'section' => 'ruku_contact_section',
+        'type'    => 'email',
+    ));
+
+    // Location
+    $wp_customize->add_setting('ruku_contact_location', array(
+        'default' => '123 Main St, Anytown, USA',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('ruku_contact_location', array(
+        'label'   => __('Location', 'ruku-theme'),
+        'section' => 'ruku_contact_section',
+        'type'    => 'text',
+    ));
+
+}
+add_action('customize_register', 'ruku_customize_contact_section');
