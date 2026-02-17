@@ -12,8 +12,8 @@ get_header();
         <div class="row align-items-center">
           <div class="col-md-6">
             <div class="about_content">
-          <h2 class="text-white">About Me</h2>
-          <p class="text-white">Hello! I'm Rukunujjaman, a passionate web developer with expertise in creating dynamic and responsive websites. With a strong foundation in HTML, CSS, JavaScript, Wordpress and PHP, I specialize in building user-friendly web applications that deliver exceptional user experiences. My goal is to transform ideas into reality through innovative web solutions.</p>
+          <h2 class="">About Me</h2>
+          <p class="">Hello! I'm Rukunujjaman, a passionate web developer with expertise in creating dynamic and responsive websites. With a strong foundation in HTML, CSS, JavaScript, Wordpress and PHP, I specialize in building user-friendly web applications that deliver exceptional user experiences. My goal is to transform ideas into reality through innovative web solutions.</p>
         </div>
           </div>
           <div class="col-md-6">
@@ -150,6 +150,125 @@ endif;
           </section>
 
         <!-- training section end -->
+          <!-- skill section start -->
+        <section class="skill_section py-5">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="section_title  mb-4">
+                  <h2> Skills</h2>
+                </div>
+              </div>
+            </div>
+            
+           <?php
+$args = array(
+    'post_type'      => 'skill',
+    'posts_per_page' => -1,
+    'post_status'    => 'publish',
+     'orderby'        => 'date',
+    'order'          => 'ASC',
+);
+
+$skill_query = new WP_Query($args);
+
+if ($skill_query->have_posts()) : ?>
+
+    <div class="row">
+
+        <?php while ($skill_query->have_posts()) : $skill_query->the_post(); 
+
+            $skill_description = get_post_meta(get_the_ID(), 'skill_description', true);
+        ?>
+
+            <div class="col-md-6 mb-1">
+                <div class="skill_item">
+                    <ul class="list-unstyled">
+                        <li>
+                         
+                            <strong><?php echo esc_html(get_the_title()); ?></strong>
+                            <?php echo esc_html($skill_description); ?>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        <?php endwhile; ?>
+
+    </div>
+
+<?php
+endif;
+
+wp_reset_postdata();
+?>
+                      
+          </div>
+
+        </section>
+        <!-- skill section end -->
+
+               <!-- skill section start -->
+        <!-- <section class="skill_section py-5">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="section_title  mb-4">
+                  <h2>My Skills</h2>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <div class="skill">
+               <div class="skill-title">
+               <span>HTML</span>
+               <span>95%</span>
+               </div>
+               <div class="progress-bar">
+               <div class="progress html"></div>
+               </div>
+               </div>
+              </div>
+               <div class="col-md-2">
+                <div class="skill">
+               <div class="skill-title">
+               <span>CSS</span>
+               <span>92%</span>
+               </div>
+               <div class="progress-bar">
+               <div class="progress css"></div>
+               </div>
+               </div>
+              </div>
+         
+                <div class="col-md-2">
+                 <div class="skill">
+                <div class="skill-title">
+                <span>JavaScript</span>
+                <span>85%</span>
+                </div>
+                <div class="progress-bar">
+                <div class="progress js"></div>
+                </div>
+                </div>
+                </div>
+                 <div class="col-md-2">
+                  <div class="skill">
+                 <div class="skill-title">
+                  <span>PHP</span>
+                  <span>70%</span>
+                 </div>
+                  <div class="progress-bar">
+                  <div class="progress php"></div>
+                  </div>
+                 </div>
+              </div>
+            </div>
+          </div>
+
+        </section> -->
+        <!-- skill section end -->
 
   <?php get_footer(); ?>
 

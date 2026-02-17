@@ -601,6 +601,52 @@ function skill_custom_post_type() {
 add_action( 'init', 'skill_custom_post_type' );
 
 
+function add_skill_meta_box() {
+    add_meta_box(
+        'skill_meta_box',
+        'Skill Details',
+        'render_skill_meta_box',
+        'skill', // change if needed
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'add_skill_meta_box');
+
+function render_skill_meta_box($post) {
+
+    wp_nonce_field('save_skill_meta', 'skill_meta_nonce');
+
+    $desc = get_post_meta($post->ID, 'skill_description', true);
+
+    ?>
+
+    <p>
+        <label><strong>Short Description</strong></label>
+        <textarea name="skill_description" rows="4" class="widefat"><?php
+            echo esc_textarea($desc);
+        ?></textarea>
+    </p>
+
+    <?php
+}
+function save_skill_meta_box($post_id) {
+
+    if (!isset($_POST['skill_meta_nonce']) ||
+        !wp_verify_nonce($_POST['skill_meta_nonce'], 'save_skill_meta')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
+    if (get_post_type($post_id) !== 'skill') return;
+
+    update_post_meta($post_id, 'skill_description', sanitize_textarea_field($_POST['skill_description'] ?? ''));
+}
+add_action('save_post', 'save_skill_meta_box');
+
+
+
 
 function ruku_customize_about_section($wp_customize) {
 
@@ -769,3 +815,14 @@ function ruku_customize_contact_section($wp_customize) {
 
 }
 add_action('customize_register', 'ruku_customize_contact_section');
+
+
+
+
+function aboutPage_about_section($wp_customize){
+    // about title
+    
+
+
+}
+add_action('customize_register', 'aboutPage_about_section');

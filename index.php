@@ -12,8 +12,18 @@ get_header(); ?>
                <h1><?php echo get_theme_mod('ruku_about_name'); ?></h1>
     <h2><?php echo get_theme_mod('ruku_about_title'); ?></h2>
     <p><?php echo get_theme_mod('ruku_about_desc'); ?></p>
-    <a href="<?php echo get_theme_mod('ruku_about_cv'); ?>" target="_blank" class="btn-custom">Download CV</a>
-    <a href="<?php echo get_theme_mod('ruku_about_link'); ?>" class="mx-2 btn-custom-two">Learn More</a>
+            <?php 
+$cv_link = get_theme_mod('ruku_about_cv');
+$about_link = get_theme_mod('ruku_about_link');
+?>
+
+<a href="<?php echo esc_url($cv_link ? $cv_link : '#'); ?>" target="_blank" class="btn-custom">
+    Download CV
+</a>
+
+<a href="<?php echo esc_url($about_link ? $about_link : '#'); ?>" class="mx-2 btn-custom-two">
+    Learn More
+</a>
     <div class="social py-3 mx-2">
         <h4 class="py-3">Find with me</h4>
         <div class="social_links">
@@ -41,57 +51,53 @@ get_header(); ?>
             <div class="row">
               <div class="col-md-12">
                 <div class="section_title  mb-4">
-                  <h2>My Skills</h2>
+                  <h2> Skills</h2>
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-2">
-                <div class="skill">
-               <div class="skill-title">
-               <span>HTML</span>
-               <span>95%</span>
-               </div>
-               <div class="progress-bar">
-               <div class="progress html"></div>
-               </div>
-               </div>
-              </div>
-               <div class="col-md-2">
-                <div class="skill">
-               <div class="skill-title">
-               <span>CSS</span>
-               <span>92%</span>
-               </div>
-               <div class="progress-bar">
-               <div class="progress css"></div>
-               </div>
-               </div>
-              </div>
-         
-                <div class="col-md-2">
-                 <div class="skill">
-                <div class="skill-title">
-                <span>JavaScript</span>
-                <span>85%</span>
+            
+           <?php
+$args = array(
+    'post_type'      => 'skill',
+    'posts_per_page' => -1,
+    'post_status'    => 'publish',
+     'orderby'        => 'date',
+    'order'          => 'ASC',
+);
+
+$skill_query = new WP_Query($args);
+
+if ($skill_query->have_posts()) : ?>
+
+    <div class="row">
+
+        <?php while ($skill_query->have_posts()) : $skill_query->the_post(); 
+
+            $skill_description = get_post_meta(get_the_ID(), 'skill_description', true);
+        ?>
+
+            <div class="col-md-6 mb-1">
+                <div class="skill_item">
+                    <ul class="list-unstyled">
+                        <li>
+                         
+                            <strong><?php echo esc_html(get_the_title()); ?></strong>
+                            <?php echo esc_html($skill_description); ?>
+                        </li>
+                    </ul>
                 </div>
-                <div class="progress-bar">
-                <div class="progress js"></div>
-                </div>
-                </div>
-                </div>
-                 <div class="col-md-2">
-                  <div class="skill">
-                 <div class="skill-title">
-                  <span>PHP</span>
-                  <span>70%</span>
-                 </div>
-                  <div class="progress-bar">
-                  <div class="progress php"></div>
-                  </div>
-                 </div>
-              </div>
             </div>
+
+        <?php endwhile; ?>
+
+    </div>
+
+<?php
+endif;
+
+wp_reset_postdata();
+?>
+                      
           </div>
 
         </section>
@@ -102,7 +108,7 @@ get_header(); ?>
               <div class="row">
                 <div class="col-md-12">
                   <div class="section_title  mb-4">
-                    <h2>My Experience</h2>
+                    <h2>Experience</h2>
                   </div>
                 </div>
               </div>
@@ -164,7 +170,7 @@ endif;
                 <div class="row">
                   <div class="col-md-12">
                     <div class="section_title  mb-4">
-                      <h2>My Education</h2>
+                      <h2>Education</h2>
                     </div>
                   </div>
                 </div>
@@ -222,7 +228,7 @@ endif;
                 <div class="row">
                   <div class="col-md-12">
                     <div class="section_title  mb-4">
-                      <h2>My Portfolio</h2>
+                      <h2> Portfolio</h2>
                     </div>
                   </div>
                 </div>
@@ -359,37 +365,44 @@ endif;
      <!-- contact section start -->
     <section class="contact_section py-5 mt-3 mb-3">
         <div class="container">
-            <div class="row">
+            <div class="row justify-content-center align-items-center">
                 <div class="col-md-12">
                     <div class="section_title mb-4">
-                        <h2>Contact Us</h2>
+                        <h2 class="text-center">Contact Us</h2>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="contat_info">
-                        <h4><?php echo get_theme_mod('ruku_contact_heading'); ?></h4>
-                              <p><?php echo get_theme_mod('ruku_contact_desc'); ?></p>
-                         <ul class="list-unstyled">
-        <li>
-            <i class="fas fa-phone-alt"></i> 
-            <a href="tel:<?php echo get_theme_mod('ruku_contact_phone'); ?>"> Phone: <?php echo get_theme_mod('ruku_contact_phone'); ?></a>
-        </li>
-        <li>
-            <i class="fas fa-envelope"></i> 
-            <a href="mailto:<?php echo get_theme_mod('ruku_contact_email'); ?>"> Email: <?php echo get_theme_mod('ruku_contact_email'); ?></a>
-        </li>
-        <li>
-            <i class="fas fa-map-marker-alt"></i> 
-            <span>Location: <?php echo get_theme_mod('ruku_contact_location'); ?></span>
-        </li>
-    </ul>
+            <div class="row ">
+                <div class="col-md-5">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-md-12">
+                            <div class="contact_item">
+                                <h4>Phone</h4>
+                                <i class="fas fa-phone-alt"></i>
+                                <a href="tel:<?php echo get_theme_mod('ruku_contact_phone'); ?>"> <?php echo get_theme_mod('ruku_contact_phone'); ?></a>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="contact_item">
+                                <h4>Email</h4>
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:<?php echo get_theme_mod('ruku_contact_email'); ?>"> <?php echo get_theme_mod('ruku_contact_email'); ?></a>
+                            </div>
+
+                    </div>
+                        <div class="col-md-12">
+                            <div class="contact_item">
+                                <h4>Location</h4>
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span><?php echo get_theme_mod('ruku_contact_location'); ?></span>  
+                            </div>
+                        </div>
+                 
 
                     </div>
                     
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-7">
                     <div class="contact_form">
                         <h4>Send a Message</h4>
                         <form action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="POST">
@@ -400,6 +413,10 @@ endif;
                             <div class="mb-3">
                                 <input type="email" name="email" class="form-control" placeholder="Your Email" required>
                             </div>
+                              <div class="mb-3">
+                                <input type="tel" name="phone" class="form-control" placeholder="Your Phone Number" required>
+                            </div>
+
                             <div class="mb-3">
                                 <textarea name="message" class="form-control" rows="5" placeholder="Your Message" required></textarea>
                             </div>
